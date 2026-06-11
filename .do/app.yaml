@@ -1,0 +1,7 @@
+name: alic-invests
+static_sites:
+  - name: web
+    build_command: npm ci && npm run build
+    output_dir: dist
+    index_document: index.html
+    catchall_document: index.html
