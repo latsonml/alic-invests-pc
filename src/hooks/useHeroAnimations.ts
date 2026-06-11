@@ -7,6 +7,7 @@ export function useHeroAnimations(stageRef: RefObject<HTMLDivElement | null>) {
     if (!stage) return
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 860px)').matches
     const hero = stage.closest('.hero')
     if (!hero) return
 
@@ -53,16 +54,18 @@ export function useHeroAnimations(stageRef: RefObject<HTMLDivElement | null>) {
         clearProps: 'opacity,transform',
       })
 
-      floats.forEach((el, i) => {
-        gsap.to(el, {
-          y: i % 2 ? 9 : -9,
-          duration: 2.8 + i * 0.4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-          delay: 1.8,
+      if (!isMobile) {
+        floats.forEach((el, i) => {
+          gsap.to(el, {
+            y: i % 2 ? 9 : -9,
+            duration: 2.8 + i * 0.4,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+            delay: 1.8,
+          })
         })
-      })
+      }
 
       if (coin) {
         gsap.from(coin, {
@@ -74,22 +77,24 @@ export function useHeroAnimations(stageRef: RefObject<HTMLDivElement | null>) {
           delay: 0.45,
           clearProps: 'opacity',
         })
-        gsap.to(coin, {
-          y: 14,
-          duration: 4.4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-          delay: 1.9,
-        })
-        gsap.to(coin, {
-          rotation: 1.2,
-          duration: 6.5,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-          delay: 1.9,
-        })
+        if (!isMobile) {
+          gsap.to(coin, {
+            y: 14,
+            duration: 4.4,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+            delay: 1.9,
+          })
+          gsap.to(coin, {
+            rotation: 1.2,
+            duration: 6.5,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+            delay: 1.9,
+          })
+        }
       }
     }, hero)
 
